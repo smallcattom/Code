@@ -1,0 +1,96 @@
+1.令a1=a/gcd(a,b)，
+b1=b/gcd(a,b)，
+m1=m/gcd(a,b)。
+如果我们能够首先求出满足 
+
+	a*x1+b*y1=gcd(a,b)这个方程的x1和y1，那么x=x1*m1,y=y1*m1就可以求出来了。
+
+	由欧几里德算法 	gcd(a,b)=gcd(b,a%b)，
+
+所以	a*x1+b*y1
+
+	=gcd(a,b)
+
+	=gcd(b,a%b)
+
+	=b*x2+(a%b)*y2，
+
+现在只要做一 些变形就可以得到扩展欧几里德算法中的用到的式子了。
+
+
+	令k=a/b(商)，
+	
+	r=a%b(余数)，
+
+那么	a=k*b+r。
+
+所以	r=a-k*b，
+带入上式，
+
+得到 	 a*x1+b*y1
+
+	=b*x2+(a%b)*y2
+	
+	=b*x2+(a-(a/b)*b)y2
+	
+	=a*y2+b*(x2-(a/b)*y2) 
+	
+	=>
+/*********-----------**********/
+	x1=y2，
+	
+	y1=x2-(a/b)*y2。
+/********-----------***********/
+
+有了这两个式子我们就知道了在用欧几里德求最大公约数的时候，相应的参数x，y的变化。
+
+	现在再回过头来看一下 扩展欧几里德算法的代码就很好理解了，实际
+上扩展欧几里德就是在求a和b的最大公约数的同时，也将满足方程a*x1+b*y1=gcd(a,b)的一组 x1和y1的值求了出来。下面代码中突出的部分就是标准的欧几里德算法的代码。
+
+__int64 exGcd(__int64 a,__int64 b,__int64 &x,__int64 &y){
+     if(b==0){
+         x=1;
+         y=0;
+         return a;
+     }
+     __int64 g=exGcd(b,a%b,x,y);
+     __int64 temp=x;
+     x=y;
+     y=temp-(a/b)*y;
+     return g;//最大公约数
+ }
+
+
+
+
+/*---------------------------------------------------------------------*/
+#include <iostream>
+#include<stdio.h>
+using namespace std;
+int x,y,q;
+void extend_Eulid(int a,int b)
+{
+    if(b == 0)
+    {
+        x = 1;
+        y = 0;
+        q = a;
+    }
+    else
+    {
+        extend_Eulid(b,a%b);
+        int temp = x;
+        x = y;
+        y = temp - a/b*y;
+
+    }
+}
+int main()
+{
+    int a,b;
+    cin>>a>>b;
+    if(a < b)   swap(a,b);
+    extend_Eulid(a,b);
+    printf("%d=(%d)*%d+(%d)*%d\n",q,x,a,y,b);
+    return 0;
+}

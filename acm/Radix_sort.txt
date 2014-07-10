@@ -1,0 +1,82 @@
+//*
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAXM 0x7ffffff
+#define Max(a,b) ((a)>(b)?(a):(b))
+#define Min(a,b) ((a)>(b)?(b):(a))
+#define INF 0x7ffffff
+#define eps 1e-6
+#define reset(a) memset(a,0,sizeof(a))
+#define ret(a) memset(a,-1,sizeof(a))
+#define lson l,mid,rt<<1
+#define rson mid+1,r,rt<<1|1
+#define demid int mid=(l+r)>>1
+#define debug
+
+char num[100][5];
+int head[1001],next[1001];
+void distribute(int radix,int n)
+{
+    int i,k,loc,temp;
+    for(i=1; i<=n; i++)
+    {
+        loc=num[i][radix]-'0';
+        k=head[loc];
+        //temp=loc;
+        if(k==-1)head[loc]=i;
+        else
+        {
+            while(k!=-1)
+            {
+                temp=k;
+                k=next[k];
+            }
+            next[temp]=i;
+        }
+    }
+
+}
+void collect(int n)
+{
+   char temp[100][5];
+   memset(temp,'\0',sizeof(temp));
+   int k,i;
+   int count=1;
+   for(i=0;i<=9;i++)
+   {
+       k=head[i];
+       while(k!=-1)
+       {
+           strcpy(temp[count],num[k]);
+           count++;
+           k=next[k];
+       }
+   }
+   for(i=1;i<=n;i++)
+   strcpy(num[i],temp[i]);
+}
+int main()
+{
+    int n,i,j;
+    scanf("%d",&n);
+ret(head);ret(next);
+    for(i=1; i<=n; i++)
+        scanf("%s",num[i]);
+
+    for(i=2; i>=0; i--)
+    {
+        ret(head);
+        ret(next);
+        distribute(i,n);
+        collect(n);
+
+        for(j=1; j<=n; j++)
+            printf("%s ",num[j]);
+        printf("\n");
+    }
+    return 0;
+}
+
+//*/

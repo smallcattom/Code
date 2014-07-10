@@ -1,0 +1,46 @@
+struct node
+{
+	node *l,*r;
+	int val,w;
+	node(int x){val = x;w = rand();l = r = 0;}
+};
+struct Treap
+{
+	node *r;
+	Treap(){r = 0;}
+	void rr(node* &fa){node*p = fa->l;fa->l = p->r;p->r = fa;fa = p;}
+	void rl(node* &fa){node*p = fa->r;fa->r = p->l;p->l = fa;fa = p;}
+	void ins(int x,node *&p)
+	{
+		if(p == 0)p = new node(x);
+		else if(p->val < x){ins(x,p->r);if(p->w < p->r->w)rl(p);}
+		else {ins(x,p->l);if(p->w < p->l->w)rr(p);}
+	}
+	node *find(int x,node *fa)
+	{
+		while(fa&&fa->val!=x)
+			if(fa->val < x)fa = fa->r;
+		else fa = fa->l;
+		return fa;
+	}
+	void del(int x,node *&fa)
+	{
+		if(fa == 0)return;
+		if(x < fa->val)del(x,fa->l);else if(x > fa->val)del(x,fa->r);
+		else if(fa->r== 0&&fa->l == 0){delete fa;fa = 0;}
+		else {
+			if(fa->l == 0){node *p = fa->r;delete fa;fa = p;}
+			else if(fa->r == 0){node *p = fa->l;delete fa;fa = p;}
+			else if(fa->l->w > fa->r->w){rl(fa);del(x,fa->l);}
+			else {rr(fa);del(x,fa->r);}
+		}		
+	}
+	void ins(int x){ins(x,r);}
+	void del(int x){del(x,r);}
+	bool find(int x){return find(x,r)!= NULL;}
+}tr;
+int main()
+{
+    srand(time(0));
+    return 0;
+}

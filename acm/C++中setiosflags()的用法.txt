@@ -1,0 +1,75 @@
+cout<<setiosflags(ios::fixed)<<setiosflags(ios::right)<<setprecision(2);
+
+setiosflags 是包含在命名空间iomanip 中的C++ 操作符，该操作符的作用是执行由有参数指定
+
+区域内的动作；
+
+iso::fixed 是操作符setiosflags 的参数之一，该参数指定的动作是以带小数点的形式表示浮点
+
+数，并且在允许的精度范围内尽可能的把数字移向小数点右侧；
+
+iso::right 也是setiosflags 的参数，该参数的指定作用是在指定区域内右对齐输出；
+
+setprecision 也是包含在命名空间iomanip 中的C++ 操作符，该操作符的作用是设定浮点数；
+
+setprecision(2) 的意思就是小数点输出的精度，即是小数点右面的数字的个数为2。
+
+cout<<setiosflags(ios::fixed)<<setiosflags(ios::right)<<setprecision(2);
+
+合在一起的意思就是，输出一个右对齐的小数点后两位的浮点数。
+
+
+使用setprecision(n)可控制输出流显示浮点数的数字个数。C++默认的流输出数值有效位是6。
+如果setprecision(n)与setiosflags(ios::fixed)合用，可以控制小数点右边的数字个数。
+
+setiosflags(ios::fixed)是用定点方式表示实数
+
+
+===================================
+
+===================================
+
+补充：
+
+问：C++中的cout.setf()跟cout.precision()的作用是什么？
+
+答：
+
+ 这两个就是格式控制的~ostream成员函数里面的，也可以用输出流操作符来控制，都一样的~附给你一些看看~
+
+其中cout.setf跟setiosflags一样的，cout.precision跟setprecision一样~
+
+#include <iomanip> 
+这里面iomanip的作用比较多: 
+主要是对cin,cout之类的一些操纵运算子，比如setfill,setw,setbase,setprecision等等。它是I/O流控制头文 
+件,就像C里面的格式化输出一样.以下是一些常见的控制函数的: 
+dec 置基数为10 相当于"%d" 
+hex 置基数为16 相当于"%X" 
+oct 置基数为8 相当于"%o" 
+setfill(c) 设填充字符为c 
+setprecision(n) 设显示小数精度为n位 
+setw(n) 设域宽为n个字符 
+这个控制符的意思是保证输出宽度为n。如： 
+cout<<setw(3)<<1<<setw(3)<<10<<setw(3)<<100; 输出结果为 
+1 10100 （默认是右对齐）当输出长度大于3时(<<1000)，setw(3)不起作用。 
+setioflags(ios::fixed) 固定的浮点显示 
+setioflags(ios::scientific) 指数表示 
+setiosflags(ios::left) 左对齐 
+setiosflags(ios::right) 右对齐 
+setiosflags(ios::skipws 忽略前导空白 
+setiosflags(ios::uppercase) 16进制数大写输出 
+setiosflags(ios::lowercase) 16进制小写输出 
+setiosflags(ios::showpoint) 强制显示小数点 
+setiosflags(ios::showpos) 强制显示符号 
+举例： 
+#include <iostream> 
+#include <iomanip> 
+using namespace std; 
+int main() 
+{ 
+cout<<12345.0<<endl;//输出"12345" 
+cout<<setiosflags(ios::fixed)<<setprecision(3)<<1.2345<<endl;输出"1.235" 
+cout<<setiosflags(ios::scientific)<<12345.0<<endl;//输出"1.234500e+004 " 
+cout<<setprecision(3)<<12345.0<<endl;//输出"1.235e+004 " 
+return 0; 
+}

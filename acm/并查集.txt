@@ -1,0 +1,30 @@
+int rank[100001];
+
+int find(int n)
+{
+    int fn=n;
+    int t;
+    while(father[fn]>0)fn=father[fn];
+    while(n!=fn)
+    {
+        t=father[n];
+        father[n]=fn;
+        n=t;
+    }
+    return fn;
+}
+void unionset(int i,int j)
+{
+    i=find(i);
+    j=find(j);
+    if(i!=j)
+    {
+        if(rank[i]>rank[j])father[j]=i;
+        else
+        {
+            father[i]=j;
+            if(rank[i]==rank[j])rank[j]++;
+        }
+    }else flag=0;
+
+}

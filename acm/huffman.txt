@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#define INF 0x7ffffff
+typedef struct htree
+{
+    int parent;
+    int lchild;
+    int rchild;
+    int weight;
+}htree;
+ htree huff[10000];
+void huffman()
+{
+
+    int i,j;
+    int m1,m2;
+    int x1,x2;
+    int n;
+    scanf("%d",&n);
+    for(i=0;i<2*n-1;i++)
+    {
+        huff[i].weight=0;
+        huff[i].lchild=huff[i].rchild=huff[i].parent=-1;
+    }
+    for(i=0;i<n;i++)
+    scanf("%d",&huff[i].weight);
+
+    for(i=0;i<n-1;i++)
+    {
+        m1=m2=INF;
+        x1=x2=0;
+        for(j=0;j<n+i;j++)
+        {
+            if(huff[j].parent==-1&&huff[j].weight<m1)
+            {
+                m2=m1;x2=x1;
+                m1=huff[j].weight;
+                x1=j;
+
+            }else if(huff[j].parent==-1&&huff[j].weight<m2)
+            {
+                m2=huff[j].weight;
+                x2=j;
+            }
+        }
+  
+        huff[x1].parent=n+i;huff[x2].parent=n+i;
+        huff[n+i].weight=huff[x1].weight+huff[x2].weight;
+        huff[n+i].lchild=x1;
+        huff[n+i].rchild=x2;
+       
+    }
+
+}
+int main()
+{
+
+    int i;
+huffman();
+for(i=0;i<7;i++)printf("%d ",huff[i].weight);
+      return 0;
+}
+

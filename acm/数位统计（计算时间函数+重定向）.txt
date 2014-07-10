@@ -1,0 +1,28 @@
+#define LOCAL
+#include <stdio.h>
+
+
+#include<time.h>
+
+int main()
+{
+    #ifdef LOCAL
+    freopen("data.in","r",stdin);
+    freopen("data.out","w",stdout);
+    #endif
+ int number,L=1,byte=0;
+    while(scanf("%d",&number)==1)
+    {
+        while(number/L)
+        {
+            byte++;
+            L*=10;
+        }
+        printf("%.2lf\n",(double)clock()/CLOCKS_PER_SEC);
+        printf("%d\n",byte);
+    }
+
+    return 0;
+
+}
+

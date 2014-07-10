@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+struct word{
+char ch[21];
+int n;
+}w[10000];
+int main()
+{
+ int i=0,j=0,k=0,l=0,flag=0;
+ char b[21],h;
+ FILE *fp;
+ if((fp=fopen("case1.in","r"))==NULL)
+  return 1;
+ while((h=fgetc(fp))!=EOF)
+ {
+  if(h>='A'&&h<='Z')
+   h=h+32;
+  if(h>='a'&&h<='z')
+  {
+   b[i]=h;
+   flag=1;
+   i++;
+  }
+  else
+  {   if(h=='-'&&(h=fgetc(fp))=='\n') flag=0;
+   if(flag==1)
+   {
+    b[i]='\0';
+                for(;j<k;j++)
+    {
+     if(strcmp(b,w[j].ch)==0)
+      break;
+    }
+    if(j==k) 
+    {
+     strcpy(w[j].ch,b);
+     k++;
+    }
+    w[j].n++;
+    flag=0;
+    j=0;
+    i=0;
+   }
+  }
+ }
+ for(i=0;i<k&&i<5;i++)
+ {
+  j=0;
+  for(l=1;l<k;l++)
+  {
+   if(w[j].n==w[l].n)
+   {
+    if(strcmp(w[j].ch,w[l].ch)>0)
+     j=l;
+   }
+   if(w[j].n<w[l].n) j=l;
+  }
+  printf("%s %d\n",w[j].ch,w[j].n);
+  w[j].n=0;
+ }
+ return 0;
+}

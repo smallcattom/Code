@@ -1,0 +1,34 @@
+#include<algorithm>
+#include<string>
+#include<vector>
+#include<math.h>
+#include<stdlib.h>
+using namespace std;
+struct node
+{
+    int w,end;
+};
+vector<node>graph[110];
+
+int main()
+{
+   int n,m;
+   while(scanf("%d%d",&n,&m))
+   {
+       int start,end,w;
+       for(int i=1;i<=n;i++)
+       graph[i].clear();
+       for(int i=1;i<=m;i++)
+       {
+           node temp;
+           scanf("%d%d%d",&start,&end,&w);
+           temp.end=end;
+           temp.w=w;
+           graph[start].push_back(temp);
+           temp.end=start;
+           graph[end].push_back(temp);
+       }
+ 
+   }
+    return 0;
+}

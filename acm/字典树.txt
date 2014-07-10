@@ -1,0 +1,33 @@
+struct Trie
+{
+	int cnt;
+	Trie* node[26];
+	Trie(){
+		memset(node,0,sizeof(node));
+		cnt = 0;
+	}
+}num[N];
+Trie *root;
+int p = 0;
+void insert(char *s)
+	{
+		Trie *t = root;
+		
+		for(int i = 0;s[i] != '\0';i ++){
+			if(t->node[s[i] - 'a'] == NULL)t->node[s[i] - 'a'] = &num[p++];
+			
+			t = t->node[s[i] - 'a'];t->cnt++;
+		}
+			
+	}
+
+	int search(char *s)
+	{
+		Trie* t = root;
+		for(int i = 0;s[i] != '\0';i ++)
+		{
+			if(t->node[s[i] - 'a'] == NULL)return 0;
+			t = t->node[s[i] - 'a'];
+		}
+		return t->cnt;
+	}

@@ -1,0 +1,63 @@
+void spfa(int start){
+  int i,j;
+  //初始化部分
+  for (i=1;i<=n;++i){
+    dist[i]=2147483647;
+    inqueue[i]=0;
+  }     
+  //将头节点入队      
+  dist[start]=0;
+  int h=0,t=1;
+  inqueue[start]=1;
+  queue[1]=start;
+  int now;
+  do{
+    h++;
+    now=Connect[queue[h]];
+    inqueue[queue[h]]=0;
+    while (now){
+      if (dist[Data[now].v]>dist[queue[h]]+Data[now].w){
+        dist[Data[now].v]=dist[queue[h]]+Data[now].w;
+        //进行松弛并扩展被松弛的点
+        if (!inqueue[Data[now].v]){
+          inqueue[Data[now].v]=1;
+          queue[++t]=Data[now].v;
+        }
+      }
+      now=Pre[now];
+    }
+  }while (h<t);
+ }
+
+
+
+//CF  STL Dij
+vector <pair<int,long long> >g[maxn];
+vector <long long> path,d(maxn,inf);
+set<pair<long long,int> >q;
+cin>>n>>m;
+for (i=0;i<m;i++)
+{
+cin>>a>>b>>c;
+g[a].push_back(make_pair(b,c));
+g[b].push_back(make_pair(a,c));
+}
+d[1]=0;
+q.insert(make_pair(0,1));
+while (!q.empty())
+{
+	int v=q.begin()->second;
+	q.erase(q.begin());
+	for (j=0;j<g[v].size();j++)
+	{
+	int to=g[v][j].first;
+	int len=g[v][j].second;
+	if (d[to]>d[v]+len)
+	{
+		q.erase(make_pair(d[to],to));
+		d[to]=d[v]+len;
+		p[to]=v;
+		q.insert(make_pair(d[to],to));
+	}   	
+	}
+}

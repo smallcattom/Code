@@ -1,0 +1,91 @@
+
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+int number[1000],n;
+void sink(int p,int w)
+{
+    int q=p<<1;
+    int t=number[p];
+    while(q<=w)
+    {
+        if(q<w&&number[q]>number[q+1])q++;
+        if(t>number[q])
+        {
+            number[p]=number[q];
+            p=q;
+            q=q<<1;
+
+        }
+        else break;
+    }
+    number[p]=t;
+}
+void swim(int p)
+{
+    int q,t;
+
+    t=number[p];
+      q=p>>1;
+    while(q&&t<number[q])
+    {
+        number[p]=number[q];
+        p=q;
+        q=q>>1;
+    }
+    number[p]=t;
+}
+void insert(int x)
+{
+
+    number[++n]=x;
+    swim(n);
+}
+void pop()
+{
+    int t=number[1];//printf("%d*",n);
+    number[1]=number[n--];
+    sink(1,n);
+    printf("%d ",t);
+}
+
+void heapsort(int n)
+{
+    int i,t;
+    i=n;
+    for(i=n>>1; i>=1; i--)
+        sink(i,n);
+    for(t=1; t<n; t++)printf("%d ",number[t]);
+    printf("%d\n",number[t]);
+    for(i=n; i>=2; i--)
+    {
+        t=number[1];
+        number[1]=number[i];
+        number[i]=t;
+        sink(1,i-1);
+        for(t=1; t<n; t++)printf("%d ",number[t]);
+        printf("%d\n",number[t]);
+    }
+
+}
+int main()
+{
+
+    int i,j,t;
+    n=0;
+    scanf("%d",&t);
+    for(i=1; i<=t; i++)
+    {
+        scanf("%d",&j);
+        insert(j);
+    }
+
+     for(;n>=1;)
+     {
+         pop();
+     }
+
+    return 0;
+}
+

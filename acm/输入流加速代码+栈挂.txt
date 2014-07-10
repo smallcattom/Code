@@ -1,0 +1,2 @@
+ios::sync_with_stdio(0);
+#pragma comment(linker,"/STACK:102400000,102400000")

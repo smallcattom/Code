@@ -1,0 +1,84 @@
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <algorithm>
+#include <cstdlib>
+#include <cmath>
+#define INF 0x3f3f3f3f
+const int N = 1051000;
+const double eps = 1e-3;
+typedef long long ll;
+using namespace std;
+template<class T>inline T sqr(T a){return a*a;}
+struct Point
+{
+    double x,y;
+    void input(){
+        scanf("%lf%lf",&x,&y);
+    }
+    double dis(const Point&a)const
+    {
+        return sqrt(sqr(a.x - x)+sqr(a.y - y));
+    }
+}rec[102],test[22];
+double best[22];
+double solve(Point &a,int n)
+{
+    double ans = 0;
+    for(int i = 0;i < n;i ++)
+        ans += a.dis(rec[i]);
+    return ans;
+}
+int main()
+{
+    //freopen("in.txt","r",stdin);
+    // ios::sync_with_stdio(0);
+    int n;
+    double step;
+    while(~scanf("%d",&n))
+    {
+        double minx,maxx,miny,maxy;
+        minx = miny = 1000000;
+        maxy = maxx = 0;
+        for(int i = 0;i < n;i ++)
+        {
+            rec[i].input();
+            maxx = max(maxx,rec[i].x);
+            maxy = max(maxy,rec[i].y);
+            minx = min(minx,rec[i].x);
+            miny = min(miny,rec[i].x);            
+        }
+        maxx -= minx;
+        maxy -= miny;
+        step = sqrt(sqr(maxx) + sqr(maxy))/2;
+        for(int i = 0;i < 15;i ++)
+        {
+            test[i].x = rand()%((int)maxx);
+            test[i].y = rand()%((int)maxy);
+            best[i] = solve(test[i],n);
+        }
+        while(step > eps)
+        {
+            for(int i = 0;i < 15;i ++)
+                for(int j = 0;j < 15;j ++)
+                {
+                    Point tmp;
+                    double angel = rand();
+                    tmp.x = test[i].x + step*cos(angel);
+                    tmp.y = test[i].y + step*sin(angel);
+                    double all = solve(tmp,n);
+                    if(all < best[i])
+                    {
+                        best[i] = all;
+                        test[i] = tmp;
+                    }
+                }
+            step *= 0.85;
+        }
+        step = 100000000;
+        for(int i = 0;i < 15;i ++)
+            step = min(step,best[i]);
+        printf("%.0f\n",step);
+    }
+    return 0;
+}

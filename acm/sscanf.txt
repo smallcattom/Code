@@ -1,0 +1,4 @@
+char num[100]={1,2,0};
+
+int number;
+sscanf(num,"%d",&number);

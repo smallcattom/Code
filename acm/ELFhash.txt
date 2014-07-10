@@ -1,0 +1,70 @@
+算法： 
+    while（*key）//遍历字符串  
+    { h=（h<<4）+*key++;//把h左移4位加上该字符付给h  
+    unsigned long g=h&0Xf0000000L;  
+    //取h的高四位付给g  
+      
+    if（g） h^=g>>24;//若是g不为0，让h和g的高八位异或再付给h  
+      
+    h&=~g;//对g取反并与h相与付给h  
+    }   
+    return h％MOD; //获得哈希值返回   
+
+JAVA版： 
+    public long ELFHash（String str）  
+    {  
+          long hash = 0;  
+          long x    = 0;  
+       
+          for（int i = 0; i < str.length（）; i++）  
+          {  
+             hash = （hash << 4） + str.charAt（i）;            
+            if（（x = hash & 0 xF0000000L） != 0）            
+            {               
+                hash ^= （x >> 24）;  
+            }  
+             hash &= ~x;  
+          }  
+       
+          return hash;  
+     }   
+
+C版： 
+     unsigned int ELFHash（char* str， unsigned int len）    
+     {    
+        unsigned int hash = 0;    
+        unsigned int x    = 0;    
+        unsigned int i    = 0;    
+          
+        for（i = 0; i < len; str++， i++）    
+        {    
+           hash = （hash << 4） + （*str）;         
+     if（（x = hash & 0 0xF0000000L） != 0）         
+     {  
+    hash ^= （x >> 24）;    
+           }    
+           hash &= ~x;    
+        }    
+          
+        return hash;    
+     }    
+ 
+
+C++版： 
+    unsigned int ELFHash（const std::string& str）    
+    {    
+       unsigned int hash = 0;    
+       unsigned int x    = 0;    
+         
+       for（std::size_t i = 0; i < str.length（）; i++）    
+       {    
+          hash = （hash << 4） + str[i];         
+          if（（x = hash & 0 xF0000000L） != 0）         
+          {            
+            hash ^= （x >> 24）;    
+          }    
+          hash &= ~x;    
+       }    
+         
+       return hash;    
+    }    

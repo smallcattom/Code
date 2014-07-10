@@ -1,0 +1,38 @@
+const int N = 1030;
+struct node
+{
+	int l,r,val,w;
+	void init(int x){l = r = -1;val = x;w = rand();}
+};
+struct Treap
+{
+	node rec[N];
+	int id,root;
+	void init(){id = 0;root = -1;}
+	void rl(int &fa){int p = rec[fa].r;rec[fa].r = rec[p].l;rec[p].l = fa;fa = p;}
+	void rr(int &fa){int p = rec[fa].l;rec[fa].l = rec[p].r;rec[p].r = fa;fa = p;}
+	void ins(int x,int &fa){
+		if(fa == -1){fa = ++id;rec[id].init(x);}
+		else if(x < rec[fa].val){ins(x,rec[fa].l);if(rec[fa].w > rec[rec[fa].l].w)rr(fa);}
+		else {ins(x,rec[fa].r);if(rec[fa].w > rec[rec[fa].r].w)rl(fa);}
+	}
+	int find(int x,int fa){
+		while(~fa && rec[fa].val != x)
+			if(x < rec[fa].val)fa = rec[fa].l;
+		else fa = rec[fa].r;
+		return fa;
+	}
+	void del(int x,int &fa)
+	{
+		if(x < rec[fa].val)del(x,rec[fa].l);else if(x > rec[fa].val)del(x,rec[fa].r);
+		else if(rec[fa].l == -1&&rec[fa].r == -1)fa = -1;
+		else if(rec[fa].l == -1)fa = rec[fa].r;
+		else if(rec[fa].r == -1)fa = rec[fa].l;
+		else if(rec[rec[fa].l].w < rec[rec[fa].r].w){
+			rr(fa);del(x,rec[fa].r);
+		}else{rl(fa);del(x,rec[fa].l);}
+	}
+	bool find(int x){return ~find(x,root);}
+	void ins(int x){ins(x,root);}
+	void del(int x){del(x,root);}
+}tr;

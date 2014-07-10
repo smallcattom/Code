@@ -1,0 +1,25 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#define T 10
+#define N 50
+#define NUM 49
+int main()
+{
+    FILE* fp;
+    int i,j;
+    fp=fopen("test.txt","w");
+    srand(NULL);
+    for(i=1;i<=T;i++)
+    {
+       int n=1+rand()%N;
+       fprintf(fp,"%d\n",n);
+       for(j=0;j<n;j++)
+       fprintf(fp,"%d ",1+rand()%NUM);
+       fprintf(fp,"\n");
+
+    } fprintf(fp,"0");
+    return 0;
+}
+
+

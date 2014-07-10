@@ -1,0 +1,33 @@
+#include <stdio.h>
+#define max(a,b) a>b?a:b
+int V,ans,n,w[21],sum[21];
+void dfs(int i,int cnt)
+{
+    if(i == 0)
+    {
+        ans = max(ans,cnt);
+        return ;
+    }
+    if(ans == V || cnt+sum[i] <= ans)       //cut
+        return ;
+    if(cnt+w[i] <= V)
+        dfs(i-1,cnt+w[i]);
+    dfs(i-1,cnt);
+
+}
+int main()
+{
+    while(~scanf("%d",&n))
+    {
+        ans = 0;
+        for(int i=1; i<=n; i++)
+        {
+            scanf("%d",&w[i]);
+            sum[i] = sum[i-1] + w[i];
+        }
+        V = sum[n]/2;
+        dfs(n,0);
+        printf("%d\n",sum[n]-2*ans);
+    }
+    return 0;
+}

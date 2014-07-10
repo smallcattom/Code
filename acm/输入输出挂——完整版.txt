@@ -1,0 +1,24 @@
+template<class T>
+class Scan
+{
+public:
+	bool inline scan(T &x)
+	{
+		char c;int si;
+		// if(c=getchar(),c==EOF) return 0;
+		while(c = getchar(),c != '-'&&(c < '0'||c >'9')&&c != EOF);
+		if(c == EOF)return 0;
+		si = (c == '-')?-1:1;
+		x = (c == '-')?0:(c - '0');
+		while(c = getchar(),c <= '9'&&c >= '0')
+			x = (x<<3) + (x<<1) + c - '0';
+		x *= si;
+		return 1;
+	}
+	void inline out(T x)
+	{
+		if(x < 0){putchar('-');x =-x;}
+		if(x > 9)out(x/10);
+		putchar(x%10 + '0');
+	}
+};

@@ -1,0 +1,63 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+typedef struct tree
+{
+    int data;
+    struct tree* lchild;
+    struct tree* rchild;
+}tree,*T;
+
+void createtree(T* rt)
+{
+    int data;
+    scanf("%d",&data);
+    if(data==0)
+    *rt=NULL;
+    else
+    {
+        *rt=(T)malloc(sizeof(tree));
+        (*rt)->data=data;
+        createtree(&(*rt)->lchild);
+        createtree(&(*rt)->rchild);
+    }
+}
+void preorder(T rt)
+{
+    if(rt)
+    {
+        printf("%d ",rt->data);
+        preorder(rt->lchild);
+        preorder(rt->rchild);
+    }
+}
+void inorder(T rt)
+{
+    if(rt)
+    {
+        inorder(rt->lchild);
+        printf("%d ",rt->data);
+        inorder(rt->rchild);
+    }
+}
+void postorder(T rt)
+{
+    if(rt)
+    {
+        postorder(rt->lchild);
+        postorder(rt->rchild);
+        printf("%d ",rt->data);
+    }
+}
+int main()
+{
+    T bin=NULL;
+  createtree(&bin);
+ preorder(bin);printf("\n");
+ inorder(bin);printf("\n");
+ postorder(bin);
+      return 0;
+}
+
+
+

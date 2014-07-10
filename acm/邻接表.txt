@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAXM 100001
+#define max(a,b) ((a)>(b)?(a):(b))
+#define min(a,b) ((a)>(b)?(b):(a))
+#define INF 0x7ffffff
+#define reset(a) memset(a,0,sizeof(a))
+#define ret(a) memset(a,-1,sizeof(a))
+#define lson l,mid,rt<<1
+#define rson mid+1,r,rt<<1|1
+#define debu
+typedef struct arc
+{
+   int adjvertex;
+   struct arc* next;
+}arctype;
+struct node
+{
+    int vertex;
+    arctype* first;
+}graph[10];
+int find(int v)
+{
+   int k;
+   for(k=0;k<5;k++)
+   if(graph[k].vertex==v) return k;
+   //return 0;
+}
+int main()
+{
+    int i,j,k;
+    int v1,v2;
+    arctype*q,*p;
+    for(k=0;k<5;k++)
+    {
+        scanf("%d",&graph[k].vertex);
+        graph[k].first=NULL;
+    }
+    for(k=0;k<6;k++)
+    {
+        scanf("%d%d",&v1,&v2);
+        i=find(v1);
+        j=find(v2);
+        q=(arctype*)malloc(sizeof(arctype));
+        q->adjvertex=j;
+        q->next=graph[i].first;
+        graph[i].first=q;
+
+        p=(arctype*)malloc(sizeof(arctype));
+        p->adjvertex=i;
+        p->next=graph[j].first;
+        graph[j].first=p;
+
+    }
+    printf("图的邻接表结构为：\n");
+    for(i=0;i<5;i++)
+    {
+
+        printf("vertex:%d",i);
+        p=graph[i].first;
+
+        while(p!=NULL)
+        {
+            printf("->%d",p->adjvertex);
+            p=p->next;
+        }
+        printf("\n");
+    }
+
+    return 0;
+}

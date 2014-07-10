@@ -1,0 +1,136 @@
+//*
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAXM 0x7ffffff
+#define Max(a,b) ((a)>(b)?(a):(b))
+#define Min(a,b) ((a)>(b)?(b):(a))
+#define INF 0x7ffffff
+#define eps 1e-6
+#define reset(a) memset(a,0,sizeof(a))
+#define ret(a) memset(a,-1,sizeof(a))
+#define lson l,mid,rt<<1
+#define rson mid+1,r,rt<<1|1
+#define demid int mid=(l+r)>>1
+#define debug
+
+int topn=-1,tops=-1;
+double num[100];
+char sign[100];
+char ex[100];
+int i;
+int rank(char str)
+{
+    switch(str)
+    {
+    case '+':
+    case '-':
+        return 1;
+    case '*':
+    case '/':
+        return 2;
+    case '(':
+        return 3;
+    default:
+        return 0;
+    }
+}
+void calulate()
+{
+    if(sign[tops]=='('&&ex[i]!='=')
+        return;
+    else
+    {
+        double a;
+        double b;
+        double c;
+
+        a=num[topn--];
+        num[topn+1]=0;
+        b=num[topn];
+        switch(sign[tops--])
+        {
+        case '+':
+            c=a+b;
+            break;
+        case '-':
+            c=b-a;
+            break;
+        case '*':
+            c=a*b;
+            break;
+        case '/':
+            c=b/a;
+            break;
+        default:
+            break;
+        }
+        num[topn]=c;
+
+    }
+
+}
+int main()
+{
+    int l,in=0;
+    memset(num,0.0,sizeof(num));
+    scanf("%s",ex);
+    l=strlen(ex);
+    for(i=0; i<l; i++)
+    {
+
+        if(ex[i]>='0'&&ex[i]<='9')
+        {
+            if(!in)
+            {
+                topn++;
+            }
+            num[topn]=num[topn]*10+(ex[i]-'0');
+            in=1;
+        }
+        else if(ex[i]=='=')
+        {
+           // printf("%d %d\n",topn,tops);
+            while(tops!=-1)
+                calulate();
+
+        }
+
+        else if(ex[i]=='(')
+            sign[++tops]=ex[i];
+        else
+        {
+            in=0;
+            if(tops==-1)
+            {
+                sign[++tops]=ex[i];
+            }
+            else
+            {
+
+                if(ex[i]==')')
+                {
+
+                    while(sign[tops]!='(')
+                        calulate();
+                    tops--;
+                }
+                else
+                {
+                    if(rank(sign[tops])>=rank(ex[i]))
+                    calulate();
+                    sign[++tops]=ex[i];
+
+                }
+
+
+            }
+        }
+    }
+    //printf("%d %d\n",topn,tops);
+    printf("%.0f",num[topn]);
+    return 0;
+}
+
+//*/

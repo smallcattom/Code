@@ -1,0 +1,85 @@
+
+ #include <cstdio>
+ 2 #include <iostream>
+ 3 #include <algorithm>
+ 4 #include <cstring>
+ 5 #include <cmath>
+ 6 
+ 7 using namespace std;
+ 8 
+ 9 const int N = 111111111;
+10 int prm[6666666], pn, np[N >> 6];
+11 bool mp[N];
+12 
+13 void getPrm1() {
+14     pn = 0;
+15     prm[pn++] = 2;
+16     for (int i = 3; i < N; i++, i++) {
+17         if (!(np[i >> 6] & (1 << (i >> 1 & 31)))) {
+18             prm[pn++] = i;
+19             for (int j = (i << 1) + i; j < N; j += (i << 1)) {
+20                 np[j >> 6] |= (1 << (j >> 1 & 31));
+21             }
+22         }
+23     }
+24 //    for (int i = 0; i < 20; i++) {
+25 //        cout << i << " : " << prm[i] << endl;
+26 //    }
+27     cout << pn << endl;
+28 }
+29 
+30 void getPrm2() {
+31     pn = 0;
+32     int tmp;
+33     mp[0] = mp[1] = true;
+34     prm[pn++] = 2;
+35     for (int i = 3; i < N; i++, i++) {
+36         if (!mp[i]) prm[pn++] = i;
+37         for (int j = 0; j < pn; j++) {
+38             tmp = i * prm[j];
+39             if (tmp >= N) break;
+40             mp[tmp] = true;
+41             if (i % prm[j] == 0) break;
+42         }
+43     }
+44 //    for (int i = 0; i < 20; i++) {
+45 //        cout << i << " : " << prm[i] << endl;
+46 //    }
+47     cout << pn << endl;
+48 }
+49 
+50 const int N2 = N >> 1;
+51 const int Nsqrt = (int) sqrt((double) N) >> 1;
+52 char ax[(N >> 4) + 2];
+53 
+54 void sieve() {
+55     memset(ax, 255, sizeof(ax));
+56     ax[0] = 0xfe;
+57     for (int i = 1; i < Nsqrt; i++) {
+58         if (ax[i >> 3] & (1 << (i & 7))) {
+59             for (int j = (i << 1) + i + 1; j < N2; j += i << 1 | 1) {
+60                 ax[j >> 3] &= ~(1 << (j & 7));
+61             }
+62         }
+63     }
+64 }
+65 
+66 inline bool isprime(int n) { return (n == 2) || ((n & 1) && (1 << (n >> 1 & 7) & ax[n >> 4]));}
+67 
+68 void getPrm3() {
+69     pn = 0;
+70     sieve();
+71     prm[pn++] = 2;
+72     for (int i = 3; i < N; i++, i++) {
+73         if (isprime(i)) prm[pn++] = i;
+74     }
+75 //    for (int i = 0; i < 20; i++) {
+76 //        cout << i << " : " << prm[i] << endl;
+77 //    }
+78     cout << pn << endl;
+79 }
+80 
+81 int main() {
+82     getPrm3();
+83     return 0;
+84 }

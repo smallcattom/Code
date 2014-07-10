@@ -1,0 +1,98 @@
+//*
+#include <iostream>
+#include<algorithm>
+#include<map>
+#include <cstring>
+#include<string>
+#include <queue>
+#include<stack>
+#include<cstdio>
+#include<vector>
+#include<math.h>
+#include<stdlib.h>
+#define MAXM 1000000
+#define INF 0x7ffffff
+#define reset(a) memset(a,0,sizeof(a))
+#define eps 1e-2
+#define lson l,mid,rt<<1
+#define rson mid,r,rt<<1|1
+using namespace std;
+struct node
+{
+    int vertex;
+    node* next;
+};
+struct v
+{
+    int adjvertex;
+    int indegree;
+    node* first;
+}aovgraph[15];
+int top()
+{
+    int k=0,i,j,v,flag[15];
+    node*p;
+    queue<int> Q;
+    reset(flag);
+    for(i=0;i<9;i++)
+    if(aovgraph[i].indegree==0&&flag[i]==0)
+    {
+        Q.push(i);
+        flag[i]=1;
+      //  aovgraph[i].indegree--;
+
+    }
+    while(!Q.empty())
+    {
+        v=Q.front();
+        Q.pop();
+        cout<<aovgraph[v].adjvertex<<endl;
+        k++;
+        p=aovgraph[v].first;
+        while(p)
+        {
+            j=p->vertex;
+            if(--aovgraph[j].indegree==0&&flag[j]==0)
+            {
+
+                Q.push(j);
+                flag[j]=1;
+            }
+            p=p->next;
+        }
+
+    }
+    return k;
+
+}
+int main()
+{
+    int i;
+    node*p;
+    for(i=0;i<9;i++)
+    {
+        aovgraph[i].adjvertex=i;//printf("%d ",i);
+        aovgraph[i].indegree=0;
+        aovgraph[i].first=NULL;
+    }
+    for(i=0;i<11;i++)
+    {
+        int c0,c1;
+        scanf("%d%d",&c0,&c1);
+        aovgraph[c1].indegree++;
+
+
+        p=(node*)malloc(sizeof(node));
+
+
+        p->vertex=c1;
+        p->next=aovgraph[c0].first;
+        aovgraph[c0].first=p;
+    }
+    cout<<top();
+
+
+
+    return 0;
+}
+//*/

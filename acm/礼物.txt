@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<string.h>
+int num[1000000][2];
+int nu[1000000];
+
+int main()
+{
+    int step1=0,step2=0,n;
+    int i,j;
+    int min=0,max=0;
+    int odd=0,even=0;
+    while( scanf("%d",&n)&&n)
+    {
+        memset(nu,1,sizeof(nu));
+        memset(num,0,sizeof(num));
+        for(i=0; i<n; i++)
+            scanf("%d",&num[i][0]);
+        for(i=0; i<n; i++)
+        {
+            if(num[i][1])continue;
+            for(j=i; j<n; j++)
+            {
+                if(num[i][0]==num[j][0])
+                {
+                    nu[i]++;
+                    num[j][1]=1;
+                }
+
+            }
+        }
+        for(i=0; i<n; i++)
+        {
+            if(!nu[i])continue;
+            if(nu[i]%2==1)
+            {
+                odd++;
+                step1=num[i][0];
+            }
+
+            else
+            {
+                even++;
+                step2=num[i][0];
+            }
+
+        }
+        if(even&&odd)
+        {
+            if(even>odd)printf("%d\n",step1);
+            else printf("%d\n",step2);
+
+        }
+        else if(odd)
+        {
+            int flag=0;
+            max=min=nu[0];
+           for(i=1;i<n;i++)
+           {
+               if(!nu[i])continue;
+               if(nu[i]==max) break;
+               else min=nu[i];
+           }
+        }
+        
+            
+        
+    }
+    return 0;
+}

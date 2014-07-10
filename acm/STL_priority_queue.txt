@@ -1,0 +1,20 @@
+struct node{
+   int w,end;
+};
+
+bool operator<(const node &x,const node &y)//w小的优先级大
+{
+    return x.w>y.w;
+};
+
+priority_queue<node>Q;
+struct cmp{
+
+   bool operator()(const node x,const node y)
+   {
+      return x.w<y.w;
+   }
+};
+
+priority_queue<node,vertor<node>,cmp>Q;
+priority_queue<int,vector<int>,less/greater<int> > Q;

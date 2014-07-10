@@ -1,0 +1,28 @@
+struct node
+{
+    int u, v, w;
+    int next;
+}graph[1000];
+
+int head[1000], t;
+
+void init()
+{
+    t = 1;
+    memset(head, 0, sizeof(memset));
+}
+
+void add(int u, int v, int w)
+{
+    graph[t].u = u;
+    graph[t].v = v;
+    graph[t].w = w;
+    graph[t].next = head[u];
+    head[u] = t;
+    t++;
+}
+
+for(i = head[u]; i; i = graph[i].next)
+{
+    ...
+}

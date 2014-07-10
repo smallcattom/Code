@@ -1,0 +1,6 @@
+ int a,b;
+    char A[111],B[111];
+scanf("%d%d",&a,&b);
+    memset(A,'\0',sizeof(A));
+    sprintf(A,"%d%d",a,b);
+    printf("%s",A);

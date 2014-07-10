@@ -1,0 +1,41 @@
+void prim(Graph G,int vcount,int father[])
+{
+    int i,j,k;
+    int lowcost[max_vertexes];
+int closeset[max_vertexes],used[max_vertexes];
+int min;
+    for (i=0;i<vcount;i++)
+        {
+/* 最短距离初始化为其他节点到1号节点的距离 */
+        lowcost[i]=G[0][i];
+    /* 标记所有节点的依附点皆为默认的1号节点 */
+
+        closeset[i]=0; 
+        used[i]=0;
+        father[i]=-1; 
+        }
+    used[0]=1;  /*第一个节点是在U集合里的*/
+/* vcount个节点至少需要vcount-1条边构成最小生成树 */
+    for (i=1;i<=vcount-1;i++)
+        {
+        j=0;
+    min = infinity;
+       /* 找满足条件的最小权值边的节点k */
+        for (k=1;k<vcount;k++)
+         /* 边权值较小且不在生成树中 */
+            if ((!used[k])&&(lowcost[k]<min)) 
+          {
+              min =  lowcost[k];
+              j=k;
+           }
+        father[j]=closeset[j]; 
+        used[j]=1;;//把第j个顶点并入了U中
+        for (k=1;k<vcount;k++)
+         /* 发现更小的权值 */
+            if (!used[k]&&(G[j][k]<lowcost[k]))
+                { 
+                  lowcost[k]=G[j][k];/*更新最小权值*/
+                  closeset[k]=j;;/*记录新的依附点*/
+                 }
+        }
+}

@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include<math.h>
+#define N 200000 //prime range
+__int64 num[N];
+
+//*
+void Prime()
+
+{
+
+    __int64 i,j;
+ 
+     
+
+//init all to prime
+
+    for(i=2; i<N; i++)
+
+    {
+
+        num[i]=1; //prime =1 composite =0
+
+    }
+
+//find
+    for(i=2; i*i<N; i++)
+
+    {
+
+        if( num[i] )
+
+        {
+
+            for(j=i*i; j<N; j+=i)
+
+            {
+
+                num[j]=0;
+
+            }
+
+        }
+
+    }
+
+//print
+    for(i=2; i<N; i++)
+
+    {
+
+        if(num[i])
+
+        {
+
+            printf("%I64d\n",i);
+
+        }
+
+    }
+
+}
+  //*/
+
+
+int main(void)
+
+{
+
+    Prime();
+/*
+__int64 i,j,a[N]={0};
+for(i=0;i<N;i++)
+{
+    for(j=2;j<sqrt(i);j++)
+    if(j%i==0)break;
+    if(j>=sqrt(i))a[i]=1;
+}
+for(i=0;i<N;i++)
+if(a[i])printf("%I64d\n",i);
+*/
+    return 0;
+
+}

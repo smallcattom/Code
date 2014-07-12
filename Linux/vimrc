@@ -59,6 +59,7 @@ func SetTitle()
 let l = 0
 let l = l + 1 | call setline(l,'#include <sys/types.h>')
 let l = l + 1 | call setline(l,'#include <sys/stat.h>')
+let l = l + 1 | call setline(l,'#include <unistd.h>')
 let l = l + 1 | call setline(l,'#include <stdio.h>')
 let l = l + 1 | call setline(l,'#include <string.h>')
 let l = l + 1 | call setline(l,'#include <fcntl.h>')

@@ -6,6 +6,7 @@ set fileencodings=utf-8,gb18030,ucs-bom,gbk,gb2312,cp936
 "set expandtab
 map <C-B> :call CompileRunCpp()<CR>
 map <F6> <esc>ggVG " +y 
+map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'

@@ -5,7 +5,7 @@ exit 1
 fi
 
 a=`ls | grep $1`
-if [ $a != $1 ]
+if [ "$a" != "$1" ]
 then
 echo "file $1 is not exist.\nPlease try again."
 exit 1

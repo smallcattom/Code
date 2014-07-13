@@ -25,13 +25,10 @@ elseif &filetype == 'python'|| &filetype == 'py'
 elseif &filetype == 'html'
     exec "!google-chrome %&"
 endif
-
 endfunc
 
 map<C-k> :s/\/\///g<CR> k<C-^>
-
 map<C-l> :s/^/\/\//g<CR><CR>
-
 map<C-e> :! /bin/bash<CR>
 set autoindent
 set cindent  

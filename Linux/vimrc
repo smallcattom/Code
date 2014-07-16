@@ -38,7 +38,7 @@ set showmatch
 set nobackup
 set noswapfile
 set autowrite
-colorscheme evening "freya
+colorscheme  default "koehler elflord default darkblue ron evening freya
 :inoremap ( ()<ESC>i
 		:inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O
@@ -57,12 +57,17 @@ func SetTitle()
 let l = 0
 let l = l + 1 | call setline(l,'#include <sys/types.h>')
 let l = l + 1 | call setline(l,'#include <sys/stat.h>')
+let l = l + 1 | call setline(l,'#include <sys/socket.h>')
 let l = l + 1 | call setline(l,'#include <unistd.h>')
 let l = l + 1 | call setline(l,'#include <stdio.h>')
 let l = l + 1 | call setline(l,'#include <string.h>')
 let l = l + 1 | call setline(l,'#include <fcntl.h>')
 let l = l + 1 | call setline(l,'#include <math.h>')
 let l = l + 1 | call setline(l,'#include <stdlib.h>')
+let l = l + 1 | call setline(l,'#include <netinet/in.h>')
+let l = l + 1 | call setline(l,'#include <arpa/inet.h>')
+let l = l + 1 | call setline(l,'#define  MAXLINE 1000')
+let l = l + 1 | call setline(l,'#define  SA struct sockaddr')
 let l = l + 1 | call setline(l,'')
 let l = l + 1 | call setline(l,'int main()')
 let l = l + 1 | call setline(l,'{')

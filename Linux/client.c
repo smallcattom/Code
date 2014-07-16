@@ -10,6 +10,8 @@
 #include <arpa/inet.h>
 int main()
 {
+	int sockfd, n;
+	char recvline[]
     return 0;
 }
 

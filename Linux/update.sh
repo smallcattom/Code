@@ -3,8 +3,8 @@ if [ $# -eq 0 ]
 then
 exit 1
 fi
-
-a=`ls | grep $1`
+addr=`pwd`
+a=`ls $addr| grep $1`
 if [ "$a" != "$1" ]
 then
 echo "file $1 is not exist.\nPlease try again."

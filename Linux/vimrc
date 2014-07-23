@@ -4,13 +4,13 @@ language messages zh_CN.utf-8
 set completeopt=longest,menu    
 set fileencodings=utf-8,gb18030,ucs-bom,gbk,gb2312,cp936   
 "set expandtab
-map <C-B> :call CompileRunCpp()<CR>
+map <F9> :call CompileRunCpp()<CR>
 map <F6> <esc>ggVG " +y 
 map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
-     exec "!gcc % -o %< -L/usr/include/mysql -lmysqlclient"
+     exec "!gcc % -o %< "
 	 exec "! ./%<"
 elseif &filetype == 'cpp'
 	 exec "!g++ % -o %<"
@@ -38,7 +38,7 @@ set showmatch
 set nobackup
 set noswapfile
 set autowrite
-colorscheme  default "koehler elflord default darkblue ron evening freya
+colorscheme  darkblue "koehler elflord default darkblue ron evening freya
 :inoremap ( ()<ESC>i
 		:inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O

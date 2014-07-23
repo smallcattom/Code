@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* CPU, vendor, and operating system */
-/* #undef CPU_VENDOR_OS */
+#define CPU_VENDOR_OS "x86_64-unknown-linux-gnu"
 
 /* Define to 1 if <netdb.h> defines struct addrinfo */
 #define HAVE_ADDRINFO_STRUCT 1
@@ -176,7 +176,7 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the <stropts.h> header file. */
-/* #undef HAVE_STROPTS_H */
+#define HAVE_STROPTS_H 1
 
 /* Define to 1 if `ifr_mtu' is member of `struct ifreq'. */
 #define HAVE_STRUCT_IFREQ_IFR_MTU 1
@@ -311,10 +311,10 @@
 /* #undef ssize_t */
 
 /* scalar type */
-#define t_scalar_t int32_t
+/* #undef t_scalar_t */
 
 /* unsigned scalar type */
-#define t_uscalar_t uint32_t
+/* #undef t_uscalar_t */
 
 /* 16 bit unsigned type */
 /* #undef uint16_t */

@@ -10,7 +10,7 @@ map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
-     exec "!gcc % -o %< "
+     exec "!gcc % -o %< -lunp"
 	 exec "! ./%<"
 elseif &filetype == 'cpp'
 	 exec "!g++ % -o %<"

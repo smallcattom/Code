@@ -1,5 +1,6 @@
 set number
 set shiftwidth=4
+"set makeprg=CompileRunCpp()
 language messages zh_CN.utf-8   
 set completeopt=longest,menu    
 set fileencodings=utf-8,gb18030,ucs-bom,gbk,gb2312,cp936   
@@ -10,7 +11,7 @@ map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
-     exec "!gcc % -o %< -lunp"
+     exec "!gcc % -o %< -lunp "
 	 exec "! ./%<"
 elseif &filetype == 'cpp'
 	 exec "!g++ % -o %<"
@@ -27,7 +28,7 @@ elseif &filetype == 'html'
 endif
 endfunc
 
-map<F8> :s/\/\///g<CR> k<C-^>
+map<F8> :s/\/\///g<CR>
 map<F7> :s/^/\/\//g<CR><CR>
 map<C-e> :! /bin/bash<CR>
 set autoindent
@@ -38,7 +39,7 @@ set showmatch
 set nobackup
 set noswapfile
 set autowrite
-colorscheme  darkblue "koehler elflord default darkblue ron evening freya
+colorscheme  evening "koehler elflord default darkblue ron evening freya
 :inoremap ( ()<ESC>i
 		:inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O
@@ -60,6 +61,7 @@ let l = l + 1 | call setline(l,'#include <sys/stat.h>')
 let l = l + 1 | call setline(l,'#include <sys/socket.h>')
 let l = l + 1 | call setline(l,'#include <unistd.h>')
 let l = l + 1 | call setline(l,'#include <stdio.h>')
+let l = l + 1 | call setline(l,'#include <stdarg.h>')
 let l = l + 1 | call setline(l,'#include <string.h>')
 let l = l + 1 | call setline(l,'#include <fcntl.h>')
 let l = l + 1 | call setline(l,'#include <math.h>')

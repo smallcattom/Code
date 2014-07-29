@@ -80,7 +80,7 @@ if &filetype == 'c'
 elseif &filetype == 'sh'
     let l = 0
     let l = l + 1 | call setline(l,'#!/bin/bash')
-elseif &filetype == 'c++'
+elseif &filetype == 'cpp'
     let l = 0
     let l = l + 1 | call setline(l,'#include <iostream>')
     let l = l + 1 | call setline(l,'#include <numeric>')

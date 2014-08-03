@@ -11,7 +11,7 @@ map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
-     exec "!gcc % -o %< -lunp "
+     exec "!gcc % -o %< -lpthread "
 	 exec "! ./%<"
 elseif &filetype == 'cpp'
 	 exec "!g++ % -o %<"
@@ -39,7 +39,7 @@ set showmatch
 set nobackup
 set noswapfile
 set autowrite
-colorscheme  evening "koehler elflord default darkblue ron evening freya
+colorscheme  darkblue "koehler elflord default darkblue ron evening freya
 :inoremap ( ()<ESC>i
 		:inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O

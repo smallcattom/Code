@@ -1,3 +1,9 @@
+"F2： 自动填充头文件
+"F3：设置c/c++格式对齐
+"F6：全选
+"F7：添加行注释
+"F8：撤销行注释
+"F9：编译和运行
 set number
 set shiftwidth=4
 "set makeprg=CompileRunCpp()
@@ -20,7 +26,7 @@ elseif &filetype == 'java'
 	 exec "!javac %" 
 	 exec "!time java %<"
 elseif &filetype == 'sh'
-	 exec "! ./%"
+	 exec "!/bin/bash %"
 elseif &filetype == 'python'|| &filetype == 'py'
 	exec "!time python %"
 elseif &filetype == 'html'

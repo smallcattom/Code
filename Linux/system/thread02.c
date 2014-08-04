@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 void *thr_fn1(void *arg){
 	printf("thread 1 returning\n");
-	return NULL;
+	return ((void*)1);
 }
 void *thr_fn2(void *arg){
 	printf("thread 2 exiting\n");
@@ -29,6 +29,7 @@ int main()
 	   err = pthread_create(&tid2, NULL, thr_fn2, NULL);
 	   if (err != 0)
 		   printf("cant't create thread 2: %s\n",strerror(err));
+
 	   err = pthread_join(tid1, &tret);
 	   if (err != 0)
 		   printf("can't join with thread 1: %s\n", strerror(err));

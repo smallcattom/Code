@@ -28,8 +28,22 @@ elseif &filetype == 'html'
 endif
 endfunc
 
-map<F8> :s/\/\///g<CR>
-map<F7> :s/^/\/\//g<CR><CR>
+map<F8> :call CancelNote()<CR>
+func CancelNote()
+if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
+	exec "s/\\/\\///g"
+elseif &filetype == 'python'|| &filetype == 'sh' 
+	exec "s/#//g"
+endif
+endfunc
+map<F7> :call Note()<CR>
+func Note()
+if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
+	exec "s/^/\\/\\//g"
+elseif &filetype == 'python'|| &filetype == 'sh' 
+	exec "s/^/#/g "
+endif
+endfunc
 map<C-e> :! /bin/bash<CR>
 set autoindent
 set cindent  

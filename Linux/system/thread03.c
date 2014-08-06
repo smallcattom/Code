@@ -39,6 +39,9 @@ void * thr_fn2(void *arg)
 	pthread_cleanup_pop(0);
 	pthread_exit((void*)2);
 }
+/*
+ *如果线程是通过从它的启动例程中返回而终止的话，那么它的清理处理程序就不会被调用，清理处理程序是按照安装时相反的顺序调用的。
+ * */
 int main()
 {
 	int err;

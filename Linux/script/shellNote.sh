@@ -79,4 +79,8 @@ IFSofUse_and_loop()
 		echo $x
 	fi
 }
-
+getDir()
+{
+#获取当前目录下文件夹且不包含当前目录和父目录
+	ls -l | grep ^d | awk '{print $9}' | grep ^[^.]
+}

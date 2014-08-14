@@ -21,16 +21,17 @@ void printids(const char*s)
 	printf("%s pid %u tid %u (0x%x)\n", s, (unsigned int)pid,
 			(unsigned int)tid,(unsigned int)tid);
 }
-void * thr_fn(void *arg)
+void  thr_fn(char *arg)
 {
-	printids("new thread: ");
-	return ((void *)0);
-	return NULL;
+	printids(arg);
+//	return ((void *)0);
+//	return NULL;
 }
 int main()
 {
 	int err;
-	err = pthread_create(&ntid, NULL,thr_fn, NULL);
+	char *str = "new thread: ";
+	err = pthread_create(&ntid, NULL,(void*)thr_fn, (void*)str);
 	if (err != 0)
 		printf("can't create thread: %s\n", strerror(err));
 	printids("main thread:");

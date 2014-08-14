@@ -1,9 +1,9 @@
-test: test.o threadpool.o
-	gcc -o test test.o threadpool.o -lpthread
-threadpool.o:threadpool.c threadpool.h
-	gcc -c threadpool.c 
-test.o: test.c threadpool.h
-	gcc -c test.c 
+Object=test.o threadpool.o
+test: $(Object)
+	gcc -o test $(Object) -lpthread
+threadpool.o:threadpool.h
+test.o: threadpool.h
+.PHONY:clean
 clean:
-	rm -f test.o threadpool.o test threadpool
+	-rm -f test.o threadpool.o test threadpool
 

@@ -86,3 +86,15 @@ getDir()
 #打印第2行第一列
 	sed -n "2, 1p"
 }
+Find()
+{
+	find . \( -name "*.sh" -o -name "*.py" \) -print
+	find . -regex ".*\(\.py\|\.sh\)$" #运用正则表达式查找
+	find . ! -name "*.txt"  #查找不符合要求的
+	find . -maxdepth 1 -type l #搜索最大深度为1,搜索类型是符号链接
+	#atime 用户最后一次访问时间
+	#mtime 修改时间
+	#ctime 变化时间，指权限所有权
+	find . -type f atime -7 #-是小于的意思
+}
+

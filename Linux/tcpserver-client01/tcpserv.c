@@ -14,6 +14,21 @@
 #define MAXLINE 1024
 #define  SA struct sockaddr
 #define LISTENQ 1024
+/*
+struct in_addr {
+	in_addr_t s_addr;
+};
+
+struct sockaddr_in {
+	uint8_t sin_len;
+	sa_family_t sin_family;
+	in_port_t sin_port;
+
+	struct in_addr sin_addr;
+
+	char  sin_zero[8];
+};
+ */
 void str_echo(int sockfd)
 {
 	ssize_t n;
@@ -44,7 +59,7 @@ int main()
 	{
 		clilen = sizeof(cliaddr);
 		connfd = accept(listenfd, (SA *) &cliaddr, &clilen);
-		if( (childpid = fork())){
+		if ( (childpid = fork()) == 0){
 			close(listenfd);
 			str_echo(connfd);
 			exit(0);

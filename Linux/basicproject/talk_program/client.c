@@ -25,7 +25,7 @@ int main(int argc,char **argv)
 	bzero(&cli,sizeof(cli));
 	cli.sin_family = AF_INET;
 	cli.sin_port = htons(5001);
-	inet_pton(AF_INET,argv[1],(struct sockaddr*)&cli.sin_addr.s_addr);
+	inet_pton(AF_INET,"172.16.41.222",(struct sockaddr*)&cli.sin_addr.s_addr);
 	bind(sockfd,(struct sockaddr*)&cli,sizeof(cli));
 	if(connect(sockfd,(struct sockaddr*)&cli,sizeof(cli)) != -1)
 	puts("connect successfully!You can send information.");

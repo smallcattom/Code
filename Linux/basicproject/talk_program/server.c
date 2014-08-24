@@ -82,7 +82,8 @@ int main()
 				}
 			}
 		}
+		close(complete);
 	}
-	close(complete);
+	close(listsock);
 	return 0;
 }

@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <time.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -22,6 +23,7 @@ int main(int argc,char** argv)
 	ssize_t 			send_l;
 	char 				buf[MAXLINE];
 	FILE*				fp = NULL;
+	double s;
 	if(argc < 2)return 0;
 	bzero(&serv,sizeof(serv));
 	serv.sin_family = AF_INET;
@@ -34,6 +36,7 @@ int main(int argc,char** argv)
 	{
 		len = sizeof(cli);
 		complete = accept(sockfd,(struct sockaddr*)&cli,&len);
+		s = clock();
 		buf[0] = '\0';
 		strcpy(buf,argv[1]);
 		send_l = send(complete,buf,strlen(argv[1]),0);

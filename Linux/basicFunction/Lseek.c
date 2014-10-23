@@ -10,7 +10,7 @@
 int main()
 {
 	off_t offset = -1;
-	offset = lseek(stdin,0,SEEK_CUR);
+	offset = lseek(STDIN_FILENO,0,SEEK_CUR);
 	if(offset == -1){
 		printf("STDIN can't seek\n");
 	}else{

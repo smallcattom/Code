@@ -4,6 +4,7 @@
 "F7：添加行注释
 "F8：撤销行注释
 "F9：编译和运行
+syntax on
 set number
 set shiftwidth=4
 "set makeprg=CompileRunCpp()
@@ -31,19 +32,21 @@ elseif &filetype == 'python'|| &filetype == 'py'
 	exec "!time python %"
 elseif &filetype == 'html'
     exec "!google-chrome %&"
+elseif &filetype == 'go'
+	exec "!time go run %"
 endif
 endfunc
 
-map<F8> :call CancelNote()<CR>
-func CancelNote()
+map<F8> :call Cancelnote()<CR>
+func Cancelnote()
 if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
 	exec "s/\\/\\///g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
 	exec "s/#//g"
 endif
 endfunc
-map<F7> :call Note()<CR>
-func Note()
+map<F7> :call AddNote()<CR>
+func AddNote()
 if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
 	exec "s/^/\\/\\//g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
@@ -59,7 +62,7 @@ set showmatch
 set nobackup
 set noswapfile
 set autowrite
-colorscheme  darkblue "koehler elflord default darkblue ron evening freya
+colorscheme  fruity "koehler elflord default darkblue ron evening freya
 :inoremap ( ()<ESC>i
 		:inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O
@@ -73,8 +76,8 @@ colorscheme  darkblue "koehler elflord default darkblue ron evening freya
 			        return a:char
 				    endif
 				    endfunction
-map<F2> :call SetTitle()<CR>
-func SetTitle()
+map<f2> :call Settitle()<cr>
+func Settitle()
 if &filetype == 'c'
     let l = 0
     let l = l + 1 | call setline(l,'#include <sys/types.h>')

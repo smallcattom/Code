@@ -18,45 +18,45 @@ map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
-     exec "!gcc % -o %< -lpthread "
-	 exec "!time %<"
+exec "!gcc % -o %< -lpthread "
+exec "!time %<"
 elseif &filetype == 'cpp'
-	 exec "!g++ % -o %<"
-     exec "!time %<"    
+exec "!g++ % -o %<"
+exec "!time %<"    
 elseif &filetype == 'java' 
-	 exec "!javac %" 
-	 exec "!time java %<"
+exec "!javac %" 
+exec "!time java %<"
 elseif &filetype == 'sh'
-	 exec "!/bin/bash %"
+exec "!/bin/bash %"
 elseif &filetype == 'python'|| &filetype == 'py'
-	exec "!time python %"
+exec "!time python %"
 elseif &filetype == 'html'
-    exec "!google-chrome %&"
+exec "!google-chrome %&"
 elseif &filetype == 'go'
-	exec "!time go run %"
+exec "!time go run %"
 endif
 endfunc
 
 map<F8> :call Cancelnote()<CR>
 func Cancelnote()
 if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
-	exec "s/\\/\\///g"
+exec "s/\\/\\///g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
-	exec "s/#//g"
+exec "s/#//g"
 endif
 endfunc
 map<F7> :call AddNote()<CR>
 func AddNote()
 if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
-	exec "s/^/\\/\\//g"
+exec "s/^/\\/\\//g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
-	exec "s/^/#/g "
+exec "s/^/#/g "
 endif
 endfunc
 map<C-e> :! /bin/bash<CR>
 set autoindent
 set cindent  
-set tabstop=4 
+set tabstop=4
 set smartindent
 set showmatch
 set nobackup
@@ -71,57 +71,164 @@ inoremap ( ()<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
 function! ClosePair(char)
 if getline('.')[col('.') - 1] == a:char
-   return "\<Right>"
+return "\<Right>"
 else
-   return a:char
+return a:char
 endif
 endfunction
 map<F2> :call Settitle()<cr>
 func Settitle()
 if &filetype == 'c'
-    let l = 0
-    let l = l + 1 | call setline(l,'#include <sys/types.h>')
-    let l = l + 1 | call setline(l,'#include <sys/stat.h>')
-    let l = l + 1 | call setline(l,'#include <sys/socket.h>')
-    let l = l + 1 | call setline(l,'#include <unistd.h>')
-    let l = l + 1 | call setline(l,'#include <stdio.h>')
-    let l = l + 1 | call setline(l,'#include <stdarg.h>')
-    let l = l + 1 | call setline(l,'#include <string.h>')
-    let l = l + 1 | call setline(l,'#include <fcntl.h>')
-    let l = l + 1 | call setline(l,'#include <math.h>')
-    let l = l + 1 | call setline(l,'#include <stdlib.h>')
-    let l = l + 1 | call setline(l,'#include <netinet/in.h>')
-    let l = l + 1 | call setline(l,'#include <arpa/inet.h>')
-    let l = l + 1 | call setline(l,'#define  MAXLINE 1000')
-    let l = l + 1 | call setline(l,'#define  SA struct sockaddr')
-    let l = l + 1 | call setline(l,'')
-    let l = l + 1 | call setline(l,'int main()')
-    let l = l + 1 | call setline(l,'{')
-    let l = l + 1 | call setline(l,'    ')
-    let l = l + 1 | call setline(l,'    return 0;')
-    let l = l + 1 | call setline(l,'}')
+let l = 0
+let l = l + 1 | call setline(l,'#include <sys/types.h>')
+let l = l + 1 | call setline(l,'#include <sys/stat.h>')
+let l = l + 1 | call setline(l,'#include <sys/socket.h>')
+let l = l + 1 | call setline(l,'#include <unistd.h>')
+let l = l + 1 | call setline(l,'#include <stdio.h>')
+let l = l + 1 | call setline(l,'#include <stdarg.h>')
+let l = l + 1 | call setline(l,'#include <string.h>')
+let l = l + 1 | call setline(l,'#include <fcntl.h>')
+let l = l + 1 | call setline(l,'#include <math.h>')
+let l = l + 1 | call setline(l,'#include <stdlib.h>')
+let l = l + 1 | call setline(l,'#include <netinet/in.h>')
+let l = l + 1 | call setline(l,'#include <arpa/inet.h>')
+let l = l + 1 | call setline(l,'#define  MAXLINE 1000')
+let l = l + 1 | call setline(l,'#define  SA struct sockaddr')
+let l = l + 1 | call setline(l,'')
+let l = l + 1 | call setline(l,'int main()')
+let l = l + 1 | call setline(l,'{')
+let l = l + 1 | call setline(l,'    ')
+let l = l + 1 | call setline(l,'    return 0;')
+let l = l + 1 | call setline(l,'}')
 elseif &filetype == 'sh'
-    let l = 0
-    let l = l + 1 | call setline(l,'#!/bin/bash')
+let l = 0
+let l = l + 1 | call setline(l,'#!/bin/bash')
 elseif &filetype == 'cpp'
-    let l = 0
-    let l = l + 1 | call setline(l,'#include <iostream>')
-    let l = l + 1 | call setline(l,'#include <numeric>')
-    let l = l + 1 | call setline(l,'#include <cstdio>')
-    let l = l + 1 | call setline(l,'#include <cstdlib>')
-    let l = l + 1 | call setline(l,'#include <cstring>')
-    let l = l + 1 | call setline(l,'#include <vector>')
-    let l = l + 1 | call setline(l,'#include <cmath>')
-    let l = l + 1 | call setline(l,'#define INF 0x3f3f3f3f')
-    let l = l + 1 | call setline(l,'#define foreach(e,x) for(__typeof(x.begin()) e=x.begin();e!=x.end();e++)')
-    let l = l + 1 | call setline(l,'typedef long long ll;')
-    let l = l + 1 | call setline(l,'using namespace std;')
-    let l = l + 1 | call setline(l,'const int N = 100100;')
-    let l = l + 1 | call setline(l,'int main()')
-    let l = l + 1 | call setline(l,'{')
-    let l = l + 1 | call setline(l,'    freopen("in.txt","r",stdin);')
-    let l = l + 1 | call setline(l,'    ')
-    let l = l + 1 | call setline(l,'    return 0;')
-    let l = l + 1 | call setline(l,'}')
+let l = 0
+let l = l + 1 | call setline(l,'#include <iostream>')
+let l = l + 1 | call setline(l,'#include <numeric>')
+let l = l + 1 | call setline(l,'#include <cstdio>')
+let l = l + 1 | call setline(l,'#include <cstdlib>')
+let l = l + 1 | call setline(l,'#include <cstring>')
+let l = l + 1 | call setline(l,'#include <vector>')
+let l = l + 1 | call setline(l,'#include <cmath>')
+let l = l + 1 | call setline(l,'#define INF 0x3f3f3f3f')
+let l = l + 1 | call setline(l,'#define foreach(e,x) for(__typeof(x.begin()) e=x.begin();e!=x.end();e++)')
+let l = l + 1 | call setline(l,'typedef long long ll;')
+let l = l + 1 | call setline(l,'using namespace std;')
+let l = l + 1 | call setline(l,'const int N = 100100;')
+let l = l + 1 | call setline(l,'int main()')
+let l = l + 1 | call setline(l,'{')
+let l = l + 1 | call setline(l,'    freopen("in.txt","r",stdin);')
+let l = l + 1 | call setline(l,'    ')
+let l = l + 1 | call setline(l,'    return 0;')
+let l = l + 1 | call setline(l,'}')
 endif
 endfunc
+
+"配对删除括号
+" 按退格键时判断当前光标前一个字符，如果是左括号，则删除对应的右括号以及括号中间的内容
+function! RemovePairs()
+	let l:line = getline(".")
+	let l:previous_char = l:line[col(".")-1] " 取得当前光标前一个字符
+ 
+	if index(["(", "[", "{"], l:previous_char) != -1
+		let l:original_pos = getpos(".")
+		execute "normal %"
+		let l:new_pos = getpos(".")
+ 
+		" 如果没有匹配的右括号
+		if l:original_pos == l:new_pos
+			execute "normal! a\<BS>"
+			return
+		end
+ 
+		let l:line2 = getline(".")
+		if len(l:line2) == col(".")
+			" 如果右括号是当前行最后一个字符
+			execute "normal! v%xa"
+		else
+			" 如果右括号不是当前行最后一个字符
+			execute "normal! v%xi"
+		end
+ 
+	else
+		execute "normal! a\<BS>"
+	end
+endfunction
+" 用退格键删除一个左括号时同时删除对应的右括号
+inoremap <BS> <ESC>:call RemovePairs()<CR>a
+" 输入一个字符时，如果下一个字符也是括号，则删除它，避免出现重复字符
+function! RemoveNextDoubleChar(char)
+let l:line = getline(".")
+let l:next_char = l:line[col(".")] " 取得当前光标后一个字符
+
+if a:char == l:next_char
+execute "normal! l"
+else
+execute "normal! i" . a:char . ""
+end
+endfunction
+inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
+inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
+inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
+
+
+"go语言缩进对齐
+" just indent common cases to avoid manually typing tab or backspace
+"
+" for better style, please use gofmt after done editing.
+"
+" since it just simply uses regex matches,
+" there might be some mis-indented corner cases.
+" 
+
+" Only load this indent file when no other was loaded.
+"filetype plugin indent on
+if exists("b:did_indent")
+finish
+endif
+let b:did_indent = 1
+
+setlocal indentexpr=GetGoIndent()
+
+" To make Vim call GetLuaIndent() when it finds '\s*)', '\s*}', '\s*case', '\s*default'
+setlocal indentkeys+=0=),0=},0=case,0=default
+
+setlocal autoindent
+
+" Only define the function once.
+if exists("*GetGoIndent")
+finish
+endif
+
+function! GetGoIndent()
+" Find a non-blank line above the current line.
+let prevlnum = prevnonblank(v:lnum - 1)
+
+" Hit the start of the file, use zero indent.
+if prevlnum == 0
+return 0
+endif
+
+" Add a 'shiftwidth' after lines that start a block:
+" 'case', 'default', '{', '('
+let ind = indent(prevlnum)
+let prevline = getline(prevlnum)
+let midx = match(prevline, '^\s*\%(case\>\|default\>\)')
+if midx == -1
+let midx = match(prevline, '[({]\s*$')
+endif
+if midx != -1
+let ind = ind + &shiftwidth
+endif
+
+" Subtract a 'shiftwidth' on 'case', 'default', '}', ')'.
+" This is the part that requires 'indentkeys'.
+let midx = match(getline(v:lnum), '^\s*\%(case\>\|default\>\|[)}]\)')
+if midx != -1
+let ind = ind - &shiftwidth
+endif
+
+return ind
+endfunction

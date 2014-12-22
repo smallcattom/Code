@@ -19,10 +19,10 @@ func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
      exec "!gcc % -o %< -lpthread "
-	 exec "! ./%<"
+	 exec "!time %<"
 elseif &filetype == 'cpp'
 	 exec "!g++ % -o %<"
-     exec "!time ./%<"    
+     exec "!time %<"    
 elseif &filetype == 'java' 
 	 exec "!javac %" 
 	 exec "!time java %<"
@@ -63,20 +63,20 @@ set nobackup
 set noswapfile
 set autowrite
 colorscheme  fruity "koehler elflord default darkblue ron evening freya
-:inoremap ( ()<ESC>i
-		:inoremap ) <c-r>=ClosePair(')')<CR>
+inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O
-	:inoremap } <c-r>=ClosePair('}')<CR>
-	:inoremap [ []<ESC>i
-	:inoremap ] <c-r>=ClosePair(']')<CR>
-	function! ClosePair(char)
-	    if getline('.')[col('.') - 1] == a:char
-	            return "\<Right>"
-		        else
-			        return a:char
-				    endif
-				    endfunction
-map<f2> :call Settitle()<cr>
+:inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+function! ClosePair(char)
+if getline('.')[col('.') - 1] == a:char
+   return "\<Right>"
+else
+   return a:char
+endif
+endfunction
+map<F2> :call Settitle()<cr>
 func Settitle()
 if &filetype == 'c'
     let l = 0

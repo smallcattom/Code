@@ -5,6 +5,8 @@
 "F8：撤销行注释
 "F9：编译和运行
 syntax on
+set ruler
+set cursorline
 set number
 set shiftwidth=4
 "set makeprg=CompileRunCpp()
@@ -18,11 +20,11 @@ map <F3> <esc>gg=G " format C/C++
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
-exec "!gcc % -o %< -lpthread "
+exec "!gcc % -o %< -lpthread `pkg-config --libs opencv --cflags opencv`"
 exec "!time %<"
 elseif &filetype == 'cpp'
-exec "!g++ % -o %<"
-exec "!time %<"    
+exec "!g++ % -o %< `pkg-config --libs opencv --cflags opencv`" 
+exec "!time ./%<"    
 elseif &filetype == 'java' 
 exec "!javac %" 
 exec "!time java %<"
@@ -38,7 +40,7 @@ endif
 endfunc
 
 map<F8> :call Cancelnote()<CR>
-func Cancelnote()
+func! Cancelnote()
 if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
 exec "s/\\/\\///g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
@@ -46,7 +48,7 @@ exec "s/#//g"
 endif
 endfunc
 map<F7> :call AddNote()<CR>
-func AddNote()
+func! AddNote()
 if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
 exec "s/^/\\/\\//g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
@@ -55,6 +57,7 @@ endif
 endfunc
 map<C-e> :! /bin/bash<CR>
 set autoindent
+set autoread
 set cindent  
 set tabstop=4
 set smartindent
@@ -65,66 +68,20 @@ set autowrite
 colorscheme  fruity "koehler elflord default darkblue ron evening freya
 inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap { {<CR>}<ESC>O
-:inoremap } <c-r>=ClosePair('}')<CR>
+
+inoremap { {}<ESC>i
+inoremap } <c-r>=ClosePair('}')<CR>
+
 :inoremap [ []<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
+
 function! ClosePair(char)
-if getline('.')[col('.') - 1] == a:char
+if getline('.')[col('.')-1] == a:char
 return "\<Right>"
 else
 return a:char
 endif
 endfunction
-map<F2> :call Settitle()<cr>
-func Settitle()
-if &filetype == 'c'
-let l = 0
-let l = l + 1 | call setline(l,'#include <sys/types.h>')
-let l = l + 1 | call setline(l,'#include <sys/stat.h>')
-let l = l + 1 | call setline(l,'#include <sys/socket.h>')
-let l = l + 1 | call setline(l,'#include <unistd.h>')
-let l = l + 1 | call setline(l,'#include <stdio.h>')
-let l = l + 1 | call setline(l,'#include <stdarg.h>')
-let l = l + 1 | call setline(l,'#include <string.h>')
-let l = l + 1 | call setline(l,'#include <fcntl.h>')
-let l = l + 1 | call setline(l,'#include <math.h>')
-let l = l + 1 | call setline(l,'#include <stdlib.h>')
-let l = l + 1 | call setline(l,'#include <netinet/in.h>')
-let l = l + 1 | call setline(l,'#include <arpa/inet.h>')
-let l = l + 1 | call setline(l,'#define  MAXLINE 1000')
-let l = l + 1 | call setline(l,'#define  SA struct sockaddr')
-let l = l + 1 | call setline(l,'')
-let l = l + 1 | call setline(l,'int main()')
-let l = l + 1 | call setline(l,'{')
-let l = l + 1 | call setline(l,'    ')
-let l = l + 1 | call setline(l,'    return 0;')
-let l = l + 1 | call setline(l,'}')
-elseif &filetype == 'sh'
-let l = 0
-let l = l + 1 | call setline(l,'#!/bin/bash')
-elseif &filetype == 'cpp'
-let l = 0
-let l = l + 1 | call setline(l,'#include <iostream>')
-let l = l + 1 | call setline(l,'#include <numeric>')
-let l = l + 1 | call setline(l,'#include <cstdio>')
-let l = l + 1 | call setline(l,'#include <cstdlib>')
-let l = l + 1 | call setline(l,'#include <cstring>')
-let l = l + 1 | call setline(l,'#include <vector>')
-let l = l + 1 | call setline(l,'#include <cmath>')
-let l = l + 1 | call setline(l,'#define INF 0x3f3f3f3f')
-let l = l + 1 | call setline(l,'#define foreach(e,x) for(__typeof(x.begin()) e=x.begin();e!=x.end();e++)')
-let l = l + 1 | call setline(l,'typedef long long ll;')
-let l = l + 1 | call setline(l,'using namespace std;')
-let l = l + 1 | call setline(l,'const int N = 100100;')
-let l = l + 1 | call setline(l,'int main()')
-let l = l + 1 | call setline(l,'{')
-let l = l + 1 | call setline(l,'    freopen("in.txt","r",stdin);')
-let l = l + 1 | call setline(l,'    ')
-let l = l + 1 | call setline(l,'    return 0;')
-let l = l + 1 | call setline(l,'}')
-endif
-endfunc
 
 "配对删除括号
 " 按退格键时判断当前光标前一个字符，如果是左括号，则删除对应的右括号以及括号中间的内容
@@ -173,6 +130,56 @@ inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
 inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
 inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
 
+map<F2> :call Settitle()<cr>
+func! Settitle()
+if &filetype == 'c'
+let l = 0
+let l = l + 1 | call setline(l,'#include <sys/types.h>')
+let l = l + 1 | call setline(l,'#include <sys/stat.h>')
+let l = l + 1 | call setline(l,'#include <sys/socket.h>')
+let l = l + 1 | call setline(l,'#include <unistd.h>')
+let l = l + 1 | call setline(l,'#include <stdio.h>')
+let l = l + 1 | call setline(l,'#include <stdarg.h>')
+let l = l + 1 | call setline(l,'#include <string.h>')
+let l = l + 1 | call setline(l,'#include <fcntl.h>')
+let l = l + 1 | call setline(l,'#include <math.h>')
+let l = l + 1 | call setline(l,'#include <stdlib.h>')
+let l = l + 1 | call setline(l,'#include <netinet/in.h>')
+let l = l + 1 | call setline(l,'#include <arpa/inet.h>')
+let l = l + 1 | call setline(l,'#define  MAXLINE 1000')
+let l = l + 1 | call setline(l,'#define  SA struct sockaddr')
+let l = l + 1 | call setline(l,'')
+let l = l + 1 | call setline(l,'int main()')
+let l = l + 1 | call setline(l,'{')
+let l = l + 1 | call setline(l,'    ')
+let l = l + 1 | call setline(l,'    return 0;')
+let l = l + 1 | call setline(l,'}')
+elseif &filetype == 'sh'
+let l = 0
+let l = l + 1 | call setline(l,'#!/bin/bash')
+elseif &filetype == 'cpp'
+let l = 0
+let l = l + 1 | call setline(l,'#include <iostream>')
+let l = l + 1 | call setline(l,'#include <numeric>')
+let l = l + 1 | call setline(l,'#include <cstdio>')
+let l = l + 1 | call setline(l,'#include <cstdlib>')
+let l = l + 1 | call setline(l,'#include <cstring>')
+let l = l + 1 | call setline(l,'#include <vector>')
+let l = l + 1 | call setline(l,'#include <cmath>')
+let l = l + 1 | call setline(l,'#include <algorithm>')
+let l = l + 1 | call setline(l,'#define INF 0x3f3f3f3f')
+let l = l + 1 | call setline(l,'#define foreach(e,x) for(__typeof(x.begin()) e=x.begin();e!=x.end();e++)')
+let l = l + 1 | call setline(l,'typedef long long ll;')
+let l = l + 1 | call setline(l,'using namespace std;')
+let l = l + 1 | call setline(l,'const int N = 100100;')
+let l = l + 1 | call setline(l,'int main()')
+let l = l + 1 | call setline(l,'{')
+let l = l + 1 | call setline(l,'    freopen("in.txt","r",stdin);')
+let l = l + 1 | call setline(l,'    ')
+let l = l + 1 | call setline(l,'    return 0;')
+let l = l + 1 | call setline(l,'}')
+endif
+endfunc
 
 "go语言缩进对齐
 " just indent common cases to avoid manually typing tab or backspace
@@ -184,7 +191,7 @@ inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
 " 
 
 " Only load this indent file when no other was loaded.
-"filetype plugin indent on
+filetype plugin indent on
 if exists("b:did_indent")
 finish
 endif

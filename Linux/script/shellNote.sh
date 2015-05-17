@@ -97,4 +97,28 @@ Find()
 	#ctime 变化时间，指权限所有权
 	find . -type f atime -7 #-是小于的意思
 }
+shiyanlou()
+{
+	enable -n alias #禁用内置命令alias
+	enable alias #启用内置命令alias
+	type -t while #查看命令类型  alias keyword function builtin file 别名 关键字 函数 内置命令 外置命令
+	set -o noclobber #打开选项noclobber避免覆盖文件
+	set +o noclobber #关闭选项
+	tee t.txt #内容定向到终端和写入文件
+	exec < t.txt #执行内容重定向
+	exec > t.txt #
+	exec 3 <exec_out.txt #将文件内容读入到文件描述符3中
+	cat <& 3 #描述符3作为命令的输入
+	echo ${PATH#*:}
+	echo $(( 2#101011 )) #进制转换使用二进制转换为10进制
+	echo "obase=2;10" | bc #十进制转为其他进制
+	condition=5
+	if condition>0
+	then : #冒号用作占位符号，什么也不做
+	else  
+		echo "$condition"
+	fi
 
+	: > test.sh  #文件被清空
+	cat /dev/null > test.sh #与此不同的是不产生新进程，因为冒号是一个内建命令
+}

@@ -1,33 +1,3 @@
-//utility.h代码（设置非阻塞函数模块）：
-//将文件描述符设置为非阻塞方式（利用fcntl函数）
-/*
-int setnonblocking(int sockfd)
-{
-    fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFD, 0)| O_NONBLOCK);
-    return 0;
-}
-*/
-
-//utility.h（添加socket模块）：
-//将文件描述符fd添加到epollfd标示的内核事件表中， 并注册EPOLLIN和EPOOLET事件，EPOLLIN是数据可读事件；EPOOLET表明是ET工作方式。最后将文件描述符设置非阻塞方式
-/**
-  * @param epollfd: epoll句柄
-  * @param fd: 文件描述符
-  * @param enable_et : enable_et = true, 
-     采用epoll的ET工 作方式；否则采用LT工作方式
-*
-void addfd( int epollfd, int fd, bool enable_et )
-{
-    struct epoll_event ev;
-    ev.data.fd = fd;
-    ev.events = EPOLLIN;
-    if( enable_et )
-        ev.events = EPOLLIN | EPOLLET;
-    epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
-    setnonblocking(fd);
-    printf("fd added to epoll!\n\n");
-}
-*/
 #ifndef UTILITY_H_INCLUDED
 #define UTILITY_H_INCLUDED
 
@@ -77,6 +47,7 @@ list<int> clients_list;
   * @param sockfd: socket descriptor
   * @return 0
 **/
+//将文件描述符设置为非阻塞方式（利用fcntl函数）
 int setnonblocking(int sockfd)
 {
     fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFD, 0)| O_NONBLOCK);
@@ -87,6 +58,14 @@ int setnonblocking(int sockfd)
   * @param epollfd: epoll handle
   * @param fd: socket descriptor
   * @param enable_et : enable_et = true, epoll use ET; otherwise LT
+**/
+//utility.h（添加socket模块）：
+//将文件描述符fd添加到epollfd标示的内核事件表中， 并注册EPOLLIN和EPOOLET事件，EPOLLIN是数据可读事件；EPOOLET表明是ET工作方式。最后将文件描述符设置非阻塞方式
+/**
+  * @param epollfd: epoll句柄
+  * @param fd: 文件描述符
+  * @param enable_et : enable_et = true, 
+     采用epoll的ET工 作方式；否则采用LT工作方式
 **/
 void addfd( int epollfd, int fd, bool enable_et )
 {

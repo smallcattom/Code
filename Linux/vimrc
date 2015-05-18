@@ -6,7 +6,7 @@
 "F9：编译和运行
 syntax on
 set ruler
-set cursorline
+"set cursorline
 set number
 set shiftwidth=4
 "set makeprg=CompileRunCpp()
@@ -23,7 +23,7 @@ if &filetype == 'c'
 exec "!gcc % -o %< -lpthread `pkg-config --libs opencv --cflags opencv`"
 exec "!time %<"
 elseif &filetype == 'cpp'
-exec "!g++ % -o %< `pkg-config --libs opencv --cflags opencv`" 
+exec "!g++ % -o %< `pkg-config --libs opencv --cflags opencv pkg-config --cflags --libs gtk+-2.0`" 
 exec "!time ./%<"    
 elseif &filetype == 'java' 
 exec "!javac %" 
@@ -69,7 +69,7 @@ colorscheme  fruity "koehler elflord default darkblue ron evening freya
 inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
 
-inoremap { {}<ESC>i
+inoremap { {<CR>}<ESC>O
 inoremap } <c-r>=ClosePair('}')<CR>
 
 :inoremap [ []<ESC>i
@@ -123,14 +123,14 @@ let l:next_char = l:line[col(".")] " 取得当前光标后一个字符
 if a:char == l:next_char
 execute "normal! l"
 else
-execute "normal! i" . a:char . ""
+execute "normal! a" . a:char . ""
 end
 endfunction
 inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
 inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
 inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
 
-map<F2> :call Settitle()<cr>
+map<F2> :call Settitle()<CR>o
 func! Settitle()
 if &filetype == 'c'
 let l = 0

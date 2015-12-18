@@ -5,6 +5,64 @@
 "F7：添加行注释
 "F8：撤销行注释
 "F9：编译和运行
+" ============================================================================
+" 基本设定
+" ============================================================================
+" 关闭 vi 兼容模式，否则无法使用 vim 的大部分扩展功能
+set nocompatible
+" 打开文件时总是跳到最后光标所在的行
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \   exe "normal! g'\"" |
+    \ endif
+
+" 为键码打开超时, 避免终端下 <ESC> 的等待
+set ttimeout
+" 等待键码超时时间
+set ttimeoutlen=50
+" 搜索时忽略大小写
+set ignorecase
+" 如果搜索模式包含大写字符，不使用 'ignorecase' 选项
+set smartcase
+" visual模式修改缩进时不退出该模式
+vnoremap < <gv
+vnoremap > >gv 
+" 让退格键以现代化的方式工作
+set backspace=2
+" 在 vim 窗口右下角，标尺的右边显示未完成的命令
+"set showcmd
+" 增强的命令行补全
+set wildmenu
+" 左下角显示当前模式
+set showmode
+" 打开文件类型的检测
+filetype on
+" 可以为特定的文件类型允许插件文件的载入
+filetype plugin on
+" 可以为特定的文件类型载入缩进文件
+filetype indent on
+" 搜索时忽略大小写
+set ignorecase
+" 如果搜索模式包含大写字符，不使用 'ignorecase' 选项
+set smartcase
+" 设置搜索结果高亮显示
+"set hlsearch
+" 在搜索模式时输入时即时显示相应的匹配点
+set incsearch
+" 启动对鼠标的支持
+"set mouse=a
+" 让 vim 支持鼠标拖动窗口边缘, 以方便改变窗口大小
+set ttymouse=xterm2
+" 设定文件编码类型，彻底解决中文编码问题
+let &termencoding=&encoding
+" 鼠标右键弹出菜单
+"set mousemodel=popup
+" 允许光标移动到刚刚超过行尾字符之后的位置, 允许可视列块模式的虚拟编辑
+set virtualedit=onemore,block
+" 定制状态栏, 显示有价值的信息
+set statusline=%<%f\ %h%w%m%r%y[%{&ff}]%([%{&fenc}]%)%=%(%l/%L,%c%V%)\ %P
+" 一直显示状态栏
+set laststatus=2
 syntax on
 set ruler
 "set cursorline
@@ -12,14 +70,20 @@ set number
 set shiftwidth=4
 "set makeprg=CompileRunCpp()
 language messages zh_CN.utf-8   
-set completeopt=longest,menu    
+" 常规模式下用空格键来开关光标行所在折叠（注：zR 展开所有折叠，zM
+" 关闭所有折叠）  
+nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR> 
+" 补全菜单的弹出方式, 常用的方式
+set completeopt=longest,menu,menuone    
 set fileencodings=utf-8 ",gb18030,ucs-bom,gbk,gb2312,cp936   
 set encoding=utf-8
+"修改vimrc立即生效
+autocmd! bufwritepost ~/.vimrc source %
 "set expandtab
 map <F9> :call CompileRunCpp()<CR>
 map <F6> <esc>ggVG " +y 
 map <F3> <esc>gg=G " format C/C++
-map <F4> <esc>:set fdm=syntax<CR>
+map <F12> :xa<cr>
 func! CompileRunCpp()
 se"w"
 if &filetype == 'c'
@@ -48,6 +112,8 @@ if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
 exec "s/\\/\\///g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
 exec "s/#//g"
+elseif &filetype == 'vim'
+	exec "s/\"//g"
 endif
 endfunc
 map<F7> :call AddNote()<CR>
@@ -56,9 +122,14 @@ if &filetype == 'c' || &filetype == 'cpp' || &filetype == 'java'
 exec "s/^/\\/\\//g"
 elseif &filetype == 'python'|| &filetype == 'sh' 
 exec "s/^/#/g "
+elseif &filetype == 'vim'
+	exec "s/^/\"/g"
 endif
 endfunc
 map<C-e> :! /bin/bash<CR>
+" 补全菜单的弹出方式, 常用的方式
+set completeopt=menuone
+" 使新行缩进与前一行一样
 set autoindent
 set autoread
 set cindent  
@@ -68,11 +139,17 @@ set showmatch
 set nobackup
 set noswapfile
 set autowrite
+"自动写入
+set autowriteall
 colorscheme  fruity "koehler elflord default darkblue ron evening freya
 inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
 
-inoremap { {<CR>}<ESC>O
+"autocmd BufNewFile,BufRead *.xml source ~/.vim/ftplugin/xml.vim
+autocmd FileType cpp,c,java  inoremap { {<CR>}<ESC>O
+autocmd FileType sh  inoremap { {}<ESC>i
+
+"inoremap { {<CR>}<ESC>O
 inoremap } <c-r>=ClosePair('}')<CR>
 
 :inoremap [ []<ESC>i
@@ -242,3 +319,8 @@ endif
 
 return ind
 endfunction
+
+run ./.vim/nerdtree/nerdtree_plugin/exec_menuitem.vim
+run ./.vim/nerdtree/nerdtree_plugin/fs_menu.vim
+run ./.vim/nerdtree/plugin/NERD_tree.vim
+
